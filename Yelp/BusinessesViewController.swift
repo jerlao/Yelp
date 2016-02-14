@@ -115,6 +115,18 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         })
     }
     
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: nil)
+        if annotation.title! == "Me" {
+            if #available(iOS 9.0, *) {
+                pin.pinTintColor = UIColor.blueColor()
+            }
+            return pin
+        } else {
+            return pin
+        }
+    }
+    
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateField filters: [String : AnyObject]) {
         
         self.isMap = false
@@ -145,6 +157,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             self.navigationItem.rightBarButtonItem?.title = "List"
             self.counter = 0
             if self.refreshMap {
+                self.addSelfToMap()
                 self.loopThroughBusinesses()
                 self.refreshMap = false
             }
@@ -155,6 +168,13 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             self.isMap = false
             self.navigationItem.rightBarButtonItem?.title = "Map"
         }
+    }
+    
+    func addSelfToMap() {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2DMake(37.785771, -122.406165)
+        annotation.title = "Me"
+        self.mapView.addAnnotation(annotation)
     }
     
     func loopThroughBusinesses() {
