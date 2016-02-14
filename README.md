@@ -1,8 +1,8 @@
-# Project 2 - *Name of App Here*
+# Project 2 - Nood: Navigation + Food
 
-**Name of your app** is a Yelp search app using the [Yelp API](http://www.yelp.com/developers/documentation/v2/search_api).
+Nood is a Yelp search app using the [Yelp API](http://www.yelp.com/developers/documentation/v2/search_api).
 
-Time spent: **X** hours spent in total
+Time spent: 8-10 hours spent in total
 
 ## User Stories
 
@@ -21,23 +21,26 @@ The following **required** functionality is completed:
 
 The following **optional** features are implemented:
 
-- [ ] Search results page
-   - [ ] Infinite scroll for restaurant results.
+- [x] Search results page
+- [ ] Infinite scroll for restaurant results: limited result, not much need
    - [x] Implement map view of restaurant results.
-- [ ] Filter page
+- [x] Filter page
    - [ ] Implement a custom switch instead of the default UISwitch.
-   - [ ] Distance filter should expand as in the real Yelp app
+   - [ ] Distance filter should expand as in the real Yelp app: not exactly sure what this means
    - [ ] Categories should show a subset of the full list with a "See All" row to expand. Category list is [here](http://www.yelp.com/developers/documentation/category_list).
-- [x] Implement the restaurant detail page.
+- [x] Implement the restaurant detail page: image is too small to properly make the page nice so decided to do custom map and direction pages instead (see below)
 
 The following **additional** features are implemented:
 
-- [x] List anything else that you can get done to improve the app functionality!
+- [x] MapView with direction polyline between user and business
+   - [x] Auto zoom to fit source/destination points and polyline
+   - [x] Custom annotation view with restaurant image
+- [x] Detail step-by-step directions to drive to location
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. Would the best way to persist user filter selection be done via NSUserDefaults?
+2. ?
 
 ## Video Walkthrough
 
