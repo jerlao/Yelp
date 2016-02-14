@@ -24,6 +24,8 @@ class SwitchTableViewCell: UITableViewCell {
         // Initialization code
         
         self.onSwitch.addTarget(self, action: "onSwitchSwitched", forControlEvents: UIControlEvents.ValueChanged)
+        self.onSwitch.tintColor = UIColor(red: 255/255, green: 126/255, blue: 126/255, alpha: 1)
+        self.onSwitch.thumbTintColor = UIColor(red: 255/255, green: 126/255, blue: 126/255, alpha: 1)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
