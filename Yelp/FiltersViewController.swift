@@ -12,7 +12,7 @@ import UIKit
     optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateField filters: [String: AnyObject])
 }
 
-class FiltersViewController: UIViewController , UITableViewDataSource, UITableViewDelegate, SwitchTableViewCellDelegate, DealSwitchTableViewCellDelegate, SortTableViewCellDelegate {
+class FiltersViewController: UIViewController , UITableViewDataSource, UITableViewDelegate, SwitchTableViewCellDelegate, DealSwitchTableViewCellDelegate, SortTableViewCellDelegate, DistanceTableViewCellDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -21,9 +21,10 @@ class FiltersViewController: UIViewController , UITableViewDataSource, UITableVi
     var categories:[[String:String]]?
     var catSwitchStates = [Int:Bool]()
     var sortBy = 0
+    var distance = 0
     var deals = false
     
-    let sections = ["", "Sort By", "Category"]
+    let sections = ["", "Sort By", "Distance", "Category"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +68,12 @@ class FiltersViewController: UIViewController , UITableViewDataSource, UITableVi
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             return cell
         case 2:
+            let cell = tableView.dequeueReusableCellWithIdentifier("distanceCell") as! DistanceTableViewCell
+            cell.delegate = self
+            cell.distanceSegmentedControl.selectedSegmentIndex = self.distance
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
+            return cell
+        case 3:
             let cell = tableView.dequeueReusableCellWithIdentifier("switchCell") as! SwitchTableViewCell
             cell.delegate = self
             cell.switchLabel.text = self.categories![indexPath.row]["name"]
@@ -87,6 +94,8 @@ class FiltersViewController: UIViewController , UITableViewDataSource, UITableVi
         case 1:
             return 1
         case 2:
+            return 1
+        case 3:
             return (self.categories?.count)!
         default:
             return 0
@@ -104,6 +113,25 @@ class FiltersViewController: UIViewController , UITableViewDataSource, UITableVi
     
     func sortTableViewCell(sortCell: SortTableViewCell, didSelectValue value: Int) {
         self.sortBy = value
+    }
+    
+    func distanceTableViewCell(distanceCell: DistanceTableViewCell, didSelectValue value: Int) {
+        var distanceValue = 0
+        switch value {
+        case 0:
+            distanceValue = 0
+        case 1:
+            distanceValue = 480
+        case 2:
+            distanceValue = 1600
+        case 3:
+            distanceValue = 8000
+        case 4:
+            distanceValue = 32000
+        default:
+            distanceValue = 0
+        }
+        self.distance = distanceValue
     }
     
     
@@ -130,6 +158,7 @@ class FiltersViewController: UIViewController , UITableViewDataSource, UITableVi
         
         filters["deals"] = self.deals
         filters["sort"] = self.sortBy
+        filters["distance"] = self.distance
         
         self.delegate?.filtersViewController!(self, didUpdateField: filters)
         self.dismissViewControllerAnimated(true, completion: nil)

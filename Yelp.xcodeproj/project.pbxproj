@@ -22,6 +22,8 @@
 		A23E85831C70027900CDE4E4 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A23E85821C70027900CDE4E4 /* MapKit.framework */; };
 		A23E85851C70030A00CDE4E4 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A23E85841C70030A00CDE4E4 /* CoreLocation.framework */; };
 		A23E85871C70668000CDE4E4 /* DirectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23E85861C70668000CDE4E4 /* DirectionViewController.swift */; };
+		A23E85891C711C6A00CDE4E4 /* DistanceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23E85881C711C6A00CDE4E4 /* DistanceTableViewCell.swift */; };
+		A23E858B1C71440E00CDE4E4 /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23E858A1C71440E00CDE4E4 /* InfiniteScrollActivityView.swift */; };
 		A24D16B71C6AEEBB00EC2F90 /* SwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24D16B61C6AEEBB00EC2F90 /* SwitchTableViewCell.swift */; };
 		A24D16B91C6AF0C100EC2F90 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24D16B81C6AF0C100EC2F90 /* FiltersViewController.swift */; };
 		A2746E061C6ABF25004A1384 /* BusinessTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2746E051C6ABF25004A1384 /* BusinessTableViewCell.swift */; };
@@ -59,6 +61,8 @@
 		A23E85821C70027900CDE4E4 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		A23E85841C70030A00CDE4E4 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A23E85861C70668000CDE4E4 /* DirectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionViewController.swift; sourceTree = "<group>"; };
+		A23E85881C711C6A00CDE4E4 /* DistanceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceTableViewCell.swift; sourceTree = "<group>"; };
+		A23E858A1C71440E00CDE4E4 /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
 		A24D16B61C6AEEBB00EC2F90 /* SwitchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchTableViewCell.swift; sourceTree = "<group>"; };
 		A24D16B81C6AF0C100EC2F90 /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		A2746E051C6ABF25004A1384 /* BusinessTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTableViewCell.swift; sourceTree = "<group>"; };
@@ -197,9 +201,11 @@
 			isa = PBXGroup;
 			children = (
 				222D8A5E19CCF9F900D2DB53 /* Main.storyboard */,
+				A23E858A1C71440E00CDE4E4 /* InfiniteScrollActivityView.swift */,
 				A2746E051C6ABF25004A1384 /* BusinessTableViewCell.swift */,
 				A23E857E1C6FB9BA00CDE4E4 /* SortTableViewCell.swift */,
 				A23E857C1C6FADFC00CDE4E4 /* DealSwitchTableViewCell.swift */,
+				A23E85881C711C6A00CDE4E4 /* DistanceTableViewCell.swift */,
 				A24D16B61C6AEEBB00EC2F90 /* SwitchTableViewCell.swift */,
 			);
 			name = View;
@@ -359,9 +365,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2746E061C6ABF25004A1384 /* BusinessTableViewCell.swift in Sources */,
+				A23E858B1C71440E00CDE4E4 /* InfiniteScrollActivityView.swift in Sources */,
 				22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */,
 				A24D16B91C6AF0C100EC2F90 /* FiltersViewController.swift in Sources */,
 				A23E85871C70668000CDE4E4 /* DirectionViewController.swift in Sources */,
+				A23E85891C711C6A00CDE4E4 /* DistanceTableViewCell.swift in Sources */,
 				A23E857F1C6FB9BA00CDE4E4 /* SortTableViewCell.swift in Sources */,
 				A23E857D1C6FADFC00CDE4E4 /* DealSwitchTableViewCell.swift in Sources */,
 				22AAAA991AEA0A9700A544AF /* Business.swift in Sources */,
@@ -496,7 +504,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Yelp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.codepath.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jerrylao;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -511,7 +519,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Yelp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.codepath.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jerrylao;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};

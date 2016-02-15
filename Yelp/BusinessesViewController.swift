@@ -14,16 +14,20 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     var businesses: [Business]!
     let searchBar = UISearchBar()
+    var filters: [String: AnyObject?]?
     var isMap = false
     var counter = 0
+    var offset = 20
     var refreshMap = true
+    var isMoreDataLoading = false
+    var loadingMoreView: InfiniteScrollActivityView?
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         self.mapView.delegate = self
         self.navigationItem.titleView = self.searchBar
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 255/255, green: 126/255, blue: 126/255, alpha: 1)
@@ -38,16 +42,15 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         
         self.searchKeyword("Restaurant")
         
-        /* Example of Yelp search with more search options specified
-        Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
-        self.businesses = businesses
+        // Set up Infinite Scroll loading indicator
+        let frame = CGRectMake(0, tableView.contentSize.height, tableView.bounds.size.width, InfiniteScrollActivityView.defaultHeight)
+        self.loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        self.loadingMoreView!.hidden = true
+        self.tableView.addSubview(self.loadingMoreView!)
         
-        for business in businesses {
-        print(business.name!)
-        print(business.address!)
-        }
-        }
-        */
+        var insets = tableView.contentInset;
+        insets.bottom += InfiniteScrollActivityView.defaultHeight;
+        tableView.contentInset = insets
     }
     
     override func didReceiveMemoryWarning() {
@@ -102,6 +105,72 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         self.searchBar.resignFirstResponder()
+        if (!self.isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.dragging) {
+                isMoreDataLoading = true
+                
+                // Update position of loadingMoreView, and start loading indicator
+                let frame = CGRectMake(0, tableView.contentSize.height, tableView.bounds.size.width, InfiniteScrollActivityView.defaultHeight)
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
+                
+                // ... Code to load more results ...
+                self.loadMoreData()
+            }
+        }
+    }
+    
+    func loadMoreData() {
+        if let filter = self.filters {
+            let sorter = filter["sort"] as? Int
+            let yelpSort = YelpSortMode(rawValue: sorter!)
+            let categories = filter["categories"] as? [String]
+            let deals = filter["deals"] as? Bool
+            let distance = filter["distance"] as? Int
+            
+            Business.searchWithTerm("Restaurants", sort: yelpSort, categories: categories, deals: deals, distance: distance, offset: offset) { (business: [Business]!, error: NSError!) -> Void in
+                
+                if error != nil {
+                    
+                } else {
+                    // Update flag
+                    self.isMoreDataLoading = false
+                    // Stop the loading indicator
+                    self.loadingMoreView!.stopAnimating()
+                    
+                    // ... Use the new data to update the data source ...
+                    
+                    // Reload the tableView now that there is new data\
+                    self.businesses.appendContentsOf(business)
+                    self.tableView.reloadData()
+                    self.offset += 20
+                }
+            }
+        } else {
+            Business.searchWithTerm("Restaurants", sort: nil, categories: nil, deals: nil, distance: nil, offset: offset) { (business: [Business]!, error: NSError!) -> Void in
+                
+                if error != nil {
+                    
+                } else {
+                    // Update flag
+                    self.isMoreDataLoading = false
+                    // Stop the loading indicator
+                    self.loadingMoreView!.stopAnimating()
+                    
+                    // ... Use the new data to update the data source ...
+                    
+                    // Reload the tableView now that there is new data\
+                    self.businesses.appendContentsOf(business)
+                    self.tableView.reloadData()
+                    self.offset += 20
+                }
+            }
+        }
     }
     
     func searchKeyword(keyword: String) {
@@ -141,12 +210,16 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         let deals = filters["deals"] as? Bool
         let sortNum = filters["sort"] as? Int
         let sort = YelpSortMode(rawValue: sortNum!)
+        let distance = filters["distance"] as? Int
+        let offset = 0
         
-        Business.searchWithTerm("Restaurants", sort: sort, categories: categories, deals: deals) { (business: [Business]!, error: NSError!) -> Void in
+        self.filters = ["categories":categories, "deals":deals, "sort":sortNum, "distance":distance]
+        
+        Business.searchWithTerm("Restaurants", sort: sort, categories: categories, deals: deals, distance: distance, offset: offset) { (business: [Business]!, error: NSError!) -> Void in
             self.businesses = business
             self.tableView.reloadData()
         }
-    
+        
     }
     
     func showMap() {
